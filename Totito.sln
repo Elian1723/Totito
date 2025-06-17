@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Totito", "Totito.csproj", "{FDE09D23-482C-4521-934D-11DD210E0CFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDE09D23-482C-4521-934D-11DD210E0CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE09D23-482C-4521-934D-11DD210E0CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE09D23-482C-4521-934D-11DD210E0CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE09D23-482C-4521-934D-11DD210E0CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A77A6041-8D34-4EC2-AE3D-44FA50DAF104}
+	EndGlobalSection
+EndGlobal
