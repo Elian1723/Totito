@@ -6,6 +6,8 @@ public class Totito
     private const int _margenSuperior = 1;
     private readonly short[,] _tablero = new short[3, 3];
     private readonly Posicion _posicion = new();
+    private short _turno = 1;
+
     private class Posicion
     {
         public int Fila { get; set; }
@@ -44,10 +46,10 @@ public class Totito
                 case ConsoleKey.RightArrow:
                     _posicion.Mover(_posicion.Fila, _posicion.Columna == 2 ? 0 : _posicion.Columna + 1);
                     break;
-                case ConsoleKey.X:
+                case ConsoleKey.X when _turno == 1:
                     LlenarCasillaYCambiarTurno(_posicion.Fila, _posicion.Columna, 1);
                     break;
-                case ConsoleKey.O:
+                case ConsoleKey.O when _turno == 2:
                     LlenarCasillaYCambiarTurno(_posicion.Fila, _posicion.Columna, 2);
                     break;
                 default:
@@ -55,25 +57,92 @@ public class Totito
                     break;
             }
 
+            if (tecla == ConsoleKey.X || tecla == ConsoleKey.O)
+            {
+                if (ComprobarGanador(out short ganador))
+                {
+                    Console.SetCursorPosition(_margenIzquierdo + 25, _margenSuperior + 6);
+                    Console.WriteLine($"¡El jugador {ganador} ha ganado!");
+
+                    return;
+                }
+                else
+                {
+                    if (HayEmpate())
+                    {
+                        Console.SetCursorPosition(_margenIzquierdo + 25, _margenSuperior + 6);
+                        Console.WriteLine("¡El juego ha terminado en empate!");
+                        return;
+                    }
+                }
+            }
+
             tecla = Console.ReadKey().Key;
         }
     }
 
-    private void LlenarCasillaYCambiarTurno(int fila, int columna, short valor)
+    private bool ComprobarGanador(out short ganador)
+    {
+        ganador = 0;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (_tablero[i, 0] == _tablero[i, 1] && _tablero[i, 0] == _tablero[i, 2] && _tablero[i, 0] != 0)
+            {
+                ganador = _tablero[i, 0];
+                break;
+            }
+            if (_tablero[0, i] == _tablero[1, i] && _tablero[0, i] == _tablero[2, i] && _tablero[0, i] != 0)
+            {
+                ganador = _tablero[0, i];
+                break;
+            }
+        }
+
+        if (_tablero[0, 0] == _tablero[1, 1] && _tablero[2, 2] == _tablero[0, 0] && _tablero[0, 0] != 0)
+        {
+            ganador = _tablero[0, 0];
+        }
+        else if (_tablero[0, 2] == _tablero[1, 1] && _tablero[0, 2] == _tablero[2, 0] && _tablero[0, 2] != 0)
+        {
+            ganador = _tablero[0, 2];
+        }
+
+        return ganador != 0;
+    }
+
+    private bool HayEmpate()
+    {
+        bool empate = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (_tablero[i, 0] == 0 || _tablero[i, 1] == 0 || _tablero[i, 2] == 0)
+            {
+                empate = false;
+            }
+        }
+
+        return empate;
+    }
+
+    private void LlenarCasillaYCambiarTurno(int fila, int columna, short valorCasilla)
     {
         _posicion.Mover(_posicion.Fila, _posicion.Columna);
 
         if (_tablero[fila, columna] == 0)
         {
-            if (valor == 0)
+            if (valorCasilla == 0)
             {
                 Console.WriteLine(" ");
             }
             else
             {
-                DibujarJugada(valor);
-                _tablero[fila, columna] = valor;
-                DibujarTurno(valor == 1 ? 2 : 1);
+                _tablero[fila, columna] = valorCasilla;
+                DibujarJugada(valorCasilla);
+
+                _turno = Convert.ToInt16(valorCasilla == 1 ? 2 : 1);
+                DibujarTurno(_turno);
             }
         }
         else
